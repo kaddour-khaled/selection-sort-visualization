@@ -1,5 +1,5 @@
 import pygame
-
+from button import Button
 WINDOW_BACKGROUND = (0, 0, 0)
 DRAWING_SPACE_BACKGROUND = (60, 63, 65)
 
@@ -11,7 +11,8 @@ class MainApp:
     def __init__(self,name, width=900, height=600):
         self.width, self.height = width, height
         self.window = pygame.display.set_mode((self.width, self.height))
-       
+        self.btn = Button(20, 20, "hello, world")
+        self.btn2 = Button(200, 20, "bbbbb")
         # create the drawing space
         self.drawing_space = pygame.Surface(
             (
@@ -31,6 +32,13 @@ class MainApp:
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self.is_running = False
+        if self.btn.get_click_event() == event.type:
+            print(self.btn.get_text())
+        if self.btn2.get_click_event() == event.type:
+            print(self.btn2.get_text())
+        
+        self.btn.on_Action(event)
+        self.btn2.on_Action(event)
     def on_render(self):
         # clean the window
         self.window.fill(WINDOW_BACKGROUND)
@@ -42,7 +50,8 @@ class MainApp:
              (DRAWING_SPACE_MARGIN_HORI, DRAWING_SPACE_MARGIN_VERT * 3)
             )
         
-
+        self.btn.render_button(self.window)
+        self.btn2.render_button(self.window)
         # update window
         pygame.display.update()
 
