@@ -1,12 +1,25 @@
 import pygame
 
 WINDOW_BACKGROUND = (0, 0, 0)
+DRAWING_SPACE_BACKGROUND = (60, 63, 65)
+
+DRAWING_SPACE_MARGIN_VERT = 50
+DRAWING_SPACE_MARGIN_HORI = 100
+
 
 class MainApp:
     def __init__(self,name, width=900, height=600):
         self.width, self.height = width, height
         self.window = pygame.display.set_mode((self.width, self.height))
-        self.window.fill((255, 0, 0))
+       
+        # create the drawing space
+        self.drawing_space = pygame.Surface(
+            (
+                self.width - (DRAWING_SPACE_MARGIN_HORI * 2), # width 
+                self.height - (DRAWING_SPACE_MARGIN_VERT * 4) # height
+            )
+        )
+      
         
     
     def on_init(self):
@@ -21,6 +34,13 @@ class MainApp:
     def on_render(self):
         # clean the window
         self.window.fill(WINDOW_BACKGROUND)
+
+        # draw drawing space on window
+        self.drawing_space.fill(DRAWING_SPACE_BACKGROUND)
+        self.window.blit(
+            self.drawing_space,
+             (DRAWING_SPACE_MARGIN_HORI, DRAWING_SPACE_MARGIN_VERT * 3)
+            )
         
 
         # update window
