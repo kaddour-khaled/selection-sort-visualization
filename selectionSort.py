@@ -4,7 +4,7 @@ RECT_COLOR = (180, 180, 180)
 MAX_RECT_COLOR = (200, 100, 50)
 CHECK_RECT_COLOR = (70, 140, 160)
 SORT_RECT_COlOR = (73, 156, 84)
-
+VEL = 10
 class SelctionSortVis:
 
     def __init__(self, rects, drawing_surface):
@@ -30,7 +30,16 @@ class SelctionSortVis:
             self.index += 1
 
     def swap(self):
-        pass
+        if self.index_swap < len(self.list_rects):
+            x = self.index_swap * self.distance_between_rects
+            if x < self.list_rects[self.index_max].x:
+                self.list_rects[self.index_swap].x += VEL
+                self.list_rects[self.index_max].x -= VEL 
+            else:
+                self.list_rects[self.index_swap],  self.list_rects[self.index_max] =  self.list_rects[self.index_max], self.list_rects[self.index_swap]
+                self.index_swap += 1
+                self.index_max = self.index_swap
+                self.index = self.index_swap
 
     def render_all_rects(self):
         for rect in self.list_rects:

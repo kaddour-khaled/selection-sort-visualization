@@ -32,11 +32,17 @@ class MainApp:
         self.selection_sort = SelctionSortVis(random_rects, self.drawing_space)
 
     def on_loop(self):
-        if not self.selection_sort.max_is_found():
-            self.selection_sort.find_max()
+        if not self.selection_sort.selection_sort_is_finished():
+
+            if not self.selection_sort.max_is_found():
+                # find max
+                self.selection_sort.find_max()
+            else:
+                # swap rects
+                self.selection_sort.swap()
         else:
-            #print(self.selection_sort.list_rects[self.selection_sort.index_max], self.drawing_space.get_height())
-            print(self.selection_sort.index)
+            print("sorting is finished")
+
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self.is_running = False
@@ -62,7 +68,7 @@ class MainApp:
         # render max_rect
         self.selection_sort.render_max_rect()
         # render swap rect
-        #self.selection_sort.render_swap_rect()
+        self.selection_sort.render_swap_rect()
 
         self.window.blit(
             self.drawing_space,
@@ -81,7 +87,7 @@ class MainApp:
         clock = pygame.time.Clock()
         self.on_init()
         while self.is_running:
-            clock.tick(5)
+            clock.tick(10)
             for event in pygame.event.get():
                 self.on_event(event)
             
