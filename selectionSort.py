@@ -5,40 +5,44 @@ MAX_RECT_COLOR = (200, 100, 50)
 CHECK_RECT_COLOR = (70, 140, 160)
 SORT_RECT_COlOR = (73, 156, 84)
 VEL = 10
+ASC = 0
+DESC = 1
 class SelctionSortVis:
 
-    def __init__(self, rects, drawing_surface):
+    def __init__(self, rects, drawing_surface, direction=ASC):
         self.max_found = False # check if the index of maximmum is found or not yet found
         self.is_sorted = False # check if the list of rectangles  are sorted or  not yet start
         self.index = 1
-        self.index_max = 0
+        self.index_max_min = 0
         self.index_swap = 0
         self.list_rects = rects
         self.drawing_surface = drawing_surface
-        self.distance_between_rects = abs(self.list_rects[0].x - self.list_rects[1].x)   
+        self.distance_between_rects = abs(self.list_rects[0].x - self.list_rects[1].x)
+        self.direction = direction 
   
-    def find_max(self):
+    def find_max_min(self):
 
         if self.index < len(self.list_rects):
             check_rect_height = self.list_rects[self.index].height
-            max_rect_height = self.list_rects[self.index_max].height
-
-            if max_rect_height < check_rect_height:
-                self.index_max = self.index
-            
-            
+            max_min_rect_height = self.list_rects[self.index_max_min].height
+            if self.direction == ASC:
+                if max_min_rect_height < check_rect_height:
+                    self.index_max_min = self.index
+            if self.direction == DESC:
+                if max_min_rect_height > check_rect_height:
+                    self.index_max_min = self.index
             self.index += 1
 
     def swap(self):
         if self.index_swap < len(self.list_rects):
             x = self.index_swap * self.distance_between_rects
-            if x < self.list_rects[self.index_max].x:
+            if x < self.list_rects[self.index_max_min].x:
                 self.list_rects[self.index_swap].x += VEL
-                self.list_rects[self.index_max].x -= VEL 
+                self.list_rects[self.index_max_min].x -= VEL 
             else:
-                self.list_rects[self.index_swap],  self.list_rects[self.index_max] =  self.list_rects[self.index_max], self.list_rects[self.index_swap]
+                self.list_rects[self.index_swap],  self.list_rects[self.index_max_min] =  self.list_rects[self.index_max_min], self.list_rects[self.index_swap]
                 self.index_swap += 1
-                self.index_max = self.index_swap
+                self.index_max_min = self.index_swap
                 self.index = self.index_swap
 
     def render_all_rects(self):
@@ -46,8 +50,8 @@ class SelctionSortVis:
             pygame.draw.rect(self.drawing_surface, RECT_COLOR, rect)
     
     def render_max_rect(self):
-        if self.index_max < len(self.list_rects):
-            pygame.draw.rect(self.drawing_surface, MAX_RECT_COLOR, self.list_rects[self.index_max])
+        if self.index_max_min < len(self.list_rects):
+            pygame.draw.rect(self.drawing_surface, MAX_RECT_COLOR, self.list_rects[self.index_max_min])
     
     def render_check_rect(self):
         if self.index < len(self.list_rects):

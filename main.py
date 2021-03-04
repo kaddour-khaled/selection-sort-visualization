@@ -36,7 +36,7 @@ class MainApp:
 
             if not self.selection_sort.max_is_found():
                 # find max
-                self.selection_sort.find_max()
+                self.selection_sort.find_max_min()
             else:
                 # swap rects
                 self.selection_sort.swap()
@@ -47,9 +47,11 @@ class MainApp:
         if event.type == pygame.QUIT:
             self.is_running = False
         if self.btn.get_click_event() == event.type:
-            print(self.btn.get_text())
+            random_rects = generate_rectangles_with_random_height(self.drawing_space.get_height())
+            self.selection_sort = SelctionSortVis(random_rects, self.drawing_space, 0)
         if self.btn2.get_click_event() == event.type:
-            print(self.btn2.get_text())
+            random_rects = generate_rectangles_with_random_height(self.drawing_space.get_height())
+            self.selection_sort = SelctionSortVis(random_rects, self.drawing_space, 1)
         
         self.btn.on_Action(event)
         self.btn2.on_Action(event)
