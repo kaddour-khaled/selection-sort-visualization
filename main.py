@@ -32,8 +32,11 @@ class MainApp:
         self.selection_sort = SelctionSortVis(random_rects, self.drawing_space)
 
     def on_loop(self):
-        self.selection_sort.find_max()
-
+        if not self.selection_sort.max_is_found():
+            self.selection_sort.find_max()
+        else:
+            #print(self.selection_sort.list_rects[self.selection_sort.index_max], self.drawing_space.get_height())
+            print(self.selection_sort.index)
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self.is_running = False
@@ -44,6 +47,7 @@ class MainApp:
         
         self.btn.on_Action(event)
         self.btn2.on_Action(event)
+
     def on_render(self):
         # clean the window
         self.window.fill(WINDOW_BACKGROUND)
@@ -58,7 +62,7 @@ class MainApp:
         # render max_rect
         self.selection_sort.render_max_rect()
         # render swap rect
-        self.selection_sort.render_swap_rect()
+        #self.selection_sort.render_swap_rect()
 
         self.window.blit(
             self.drawing_space,
@@ -93,6 +97,8 @@ def generate_rectangles_with_random_height( max_height, nbr_rects = 35, w = 20):
         h = random.randrange(10, max_height, 10)
         rect = pygame.rect.Rect(i * 20, max_height - h, 20 - 1, h)
         rects.append(rect)
+    rects[-1].height = max_height
+    rects[-1].y = 0
     return rects
 
 if __name__ == "__main__":
