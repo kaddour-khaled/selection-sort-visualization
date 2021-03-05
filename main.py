@@ -77,8 +77,14 @@ class MainApp:
              (DRAWING_SPACE_MARGIN_HORI, DRAWING_SPACE_MARGIN_VERT * 3)
             )
         
+        # render button
         self.btn.render_button(self.window)
         self.btn2.render_button(self.window)
+
+        # render text
+        self.selection_sort.render_check_text(self.window)
+        self.selection_sort.render_max_text(self.window)
+        self.selection_sort.render_sort_text(self.window)
         # update window
         pygame.display.update()
 
@@ -105,8 +111,8 @@ def generate_rectangles_with_random_height( max_height, nbr_rects = 35, w = 20):
         h = random.randrange(10, max_height, 10)
         rect = pygame.rect.Rect(i * 20, max_height - h, 20 - 1, h)
         rects.append(rect)
-    rects[-1].height = max_height
-    rects[-1].y = 0
+    # rects[-1].height = max_height
+    # rects[-1].y = 0
     return rects
 
 if __name__ == "__main__":
